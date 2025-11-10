@@ -1,63 +1,202 @@
-# ✅ ESPN Cricinfo – India vs South Africa ODI Player Stats Analysis  
-### *(Power BI + Web Scraping + Power Query)*
+# ✅ ESPN Cricinfo – India vs South Africa ODI Player Stats Analysis (Power BI + Web Scraping)
+
+## 📌 Project Overview
+This project demonstrates end-to-end data extraction, transformation, and reporting in Power BI, using web scraping from ESPN Cricinfo Statsguru.  
+The goal is to collect batting, bowling, and fielding records for India vs South Africa ODI matches, clean and prepare the dataset using Power Query, and build interactive reports for player-wise performance insights.
 
 ---
 
-## 🌟 Project Summary
-This project showcases end-to-end data extraction, transformation, and interactive reporting in Power BI using web scraping from ESPN Cricinfo Statsguru.  
-Scraped 3 categories — **Batting, Bowling, Fielding** — for ODI matches between India vs South Africa, processed 119 rows per category using Power Query functions, cleaned the dataset, and built an interactive dashboard.
+## 🔥 Key Skills Used
+- Web Scraping using Power BI Web Connector  
+- Advanced Power Query (M Language)  
+- Dynamic Pagination Function  
+- Data Cleaning & Transformation  
+- Data Modelling  
+- Creating User-Interactive Dashboards  
+- Card Visualization, Slicers, Shapes & Formatting  
 
 ---
 
-## 🛠️ Tech Used
-![Power BI](https://img.shields.io/badge/PowerBI-Data%20Visualization-yellow)
-![Power Query](https://img.shields.io/badge/Power%20Query-M%20Language-blue)
-![Web Scraping](https://img.shields.io/badge/Web%20Scraping-Dynamic%20Pagination-orange)
-![ESPN Cricinfo](https://img.shields.io/badge/Data-ESPN%20Cricinfo-red)
-![ETL](https://img.shields.io/badge/ETL-Extract%20Transform%20Load-green)
+## 🏏 Dataset Source
+ESPN Cricinfo Statsguru (ODI – India vs South Africa)
+
+### Categories scraped:
+- Batting  
+- Bowling  
+- Fielding  
+
+Each category contained 3 pages:
+- Page 1 → 50 records  
+- Page 2 → 50 records  
+- Page 3 → 19 records  
+
+✅ Total: **119 records per category**
 
 ---
 
-# 📂 Repository Structure
+## 🚀 Web Scraping Process
 
-
----
-
-# 🏏 Project Workflow
-
-## 1️⃣ Data Scraping (Web Source)
-- ESPN Cricinfo Statsguru  
-- Team = India  
-- Opposition = South Africa  
-- Categories: Batting, Bowling, Fielding  
-- Each category: Page 1 = 50 rows, Page 2 = 50 rows, Page 3 = 19 rows  
-- ✅ Total = 119 rows
+### ✔ Step 1: Select Web Source
+- Open ESPN Cricinfo Statsguru.  
+- Select ODI category.  
+- Choose:  
+  - Team = India  
+  - Opposition = South Africa  
+- Copy the URL of page 1 and paste it inside:  
+  **Power BI → Get Data → Web**
 
 ---
 
-## 2️⃣ Table Extraction Using “Table From Examples”
-- Pasted URL into Power BI web source  
-- Used **Add Table From Examples**  
-- Entered 2 sample rows → Power BI auto-detected all 50 rows  
+### ✔ Step 2: Extract the Table Using “Add Table Using Examples”
+Power BI shows multiple HTML elements such as tables, styles, images, scripts, etc.  
+
+Instead of manually selecting the table:
+1. Select **Add Table Using Examples**
+2. Enter the first two rows manually  
+3. Power BI auto-detects all 50 rows from Page 1
 
 ---
 
-## 3️⃣ Pagination Function (Advanced Editor)
+### ✔ Step 3: Enable Pagination (Web Scraping)
+Power BI loads only page 1 by default.  
+To scrape multiple pages:
 
-```m
+✅ Create a Dynamic Function  
+- Open **Advanced Editor**  
+- Wrap existing script inside a function:
+
+```powerquery
 (ps as text) =>
 let
     Source = Web.Page(Web.Contents("yourURL&page=" & ps))
 in
     Source
-={1..3}
+```
+
+- Name this function: **batting_fx**
 
 ---
 
-If you want this README converted into:
+### ✔ Step 4: Create Page List (1 to 3)
+Create a blank query.
 
-✅ PDF  
-✅ GitHub-friendly short summary  
-✅ Resume bullet points  
+In the formula bar:
 
-Just tell me “convert to resume version” or “convert to LinkedIn post”.
+```powerquery
+={1..3}
+```
+
+Convert list → table → change column type to **text**.
+
+---
+
+### ✔ Step 5: Invoke Custom Function
+- Select **Invoke Custom Function**
+- Table = list table  
+- Function = **batting_fx**
+
+This produces 3 expanded tables (one per page).  
+Expand all rows → remove unwanted columns/prefixes.
+
+---
+
+### ✔ Step 6: Append Headers
+Scraped tables do not include original column headers.
+
+Steps:
+1. Create a manual table using **Enter Data**
+2. Name it: **batting_headers**
+3. Copy column headers from CSV/Excel (use Ctrl + Alt + V + V)
+4. Append: **batting_headers + batting_raw_data**
+5. Rename final table → **batting**
+
+---
+
+### ✔ Step 7: Data Cleaning
+Perform the following transformations:
+
+- Replace null with 0 (for 7 columns)
+- Change data types:
+  - Text → Text
+  - Whole number → Int
+  - Average/Rate → Decimal number
+- Remove temporary columns
+
+✅ Repeat same steps for:
+- Bowling  
+- Fielding  
+
+---
+
+## 📊 Power BI Reporting
+
+### ✔ Report Pages (3)
+- Batting Dashboard  
+- Bowling Dashboard  
+- Fielding Dashboard  
+
+---
+
+### ✔ UI Design
+- Background canvas with 0% transparency  
+- Shapes used for headers:
+  - Rectangle  
+  - Parallelogram  
+  - Additional rectangle to close header gap  
+
+- Custom Title Styles:
+  - **“Batting Data Analysis”**
+  - **“Bowling Data Analysis”**
+  - **“Fielding Data Analysis”**
+
+---
+
+### ✔ Interactive Features
+- Player dropdown slicer  
+- KPI Cards (with soft orange glow shadow)
+- Clean layout  
+- Stat cards for each important metric  
+- Hidden queries for cleaner report:
+  - batting_raw_data  
+  - bowling_raw_data  
+  - fielding_raw_data  
+
+---
+
+## 🧠 What I Learned From the Project
+✅ How to import data via web source  
+✅ How to scrape multi-page datasets  
+✅ How to create Power Query functions  
+✅ How to dynamically generate parameterized URLs  
+✅ How to clean and transform messy web data  
+✅ How to build user-friendly dashboards  
+✅ How to structure professional Power BI report design  
+
+---
+
+## 📁 Project Structure
+
+```
+/PowerBI_ESPN_Analysis
+│
+├── Batting.pbix
+├── Bowling.pbix
+├── Fielding.pbix
+│
+└── README.md
+```
+
+---
+
+## 📌 Future Enhancements
+- Add overall combined player ranking  
+- Merge batting + bowling + fielding for all-rounder analysis  
+- Add Power BI bookmarks for advanced navigation  
+- Add DAX measures for averages, strike rates etc.  
+- Add dynamic tooltips with rich player insights  
+
+---
+
+## 🏆 Conclusion
+This project demonstrates advanced Power BI skills including web scraping, dynamic pagination, data transformation, and building fully interactive dashboards.  
+It shows strong understanding of Power Query M scripting, data modelling, and professional reporting standards.
