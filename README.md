@@ -198,5 +198,7 @@ Perform the following transformations:
 ---
 
 ## 🏆 Conclusion
-This project demonstrates advanced Power BI skills including web scraping, dynamic pagination, data transformation, and building fully interactive dashboards.  
-It shows strong understanding of Power Query M scripting, data modelling, and professional reporting standards.
+This project helped me understand the complete workflow of collecting data from ESPN Cricinfo using Power BI’s Web Connector and preparing the dataset through practical Power Query steps. I successfully implemented multi-page web scraping using a simple parameter function, handled pagination, extracted tables using examples, and cleaned the raw data for further analysis.  
+The dashboards created allowed me to visualize player statistics in a structured and interactive manner.  
+Through this project, I gained confidence in using Power Query, working with pagination, improving data cleaning techniques, and designing clean, user-friendly report pages in Power BI.
+
